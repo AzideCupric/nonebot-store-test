@@ -2,7 +2,8 @@
 import { computed } from "vue";
 
 import { NIcon, NText, NTime, NPopover } from "naive-ui";
-import ClockOutline from "vue-material-design-icons/ClockOutline.vue";
+
+import Clock from "./Clock.vue";
 
 const props = defineProps<{ checkTime: string; nowTime: number }>();
 
@@ -22,12 +23,14 @@ function getTimeColor(timeDiff: number) {
 const timeType = computed(() =>
   getTimeColor(props.nowTime - Date.parse(props.checkTime)),
 );
+
+const hour = computed(() => (new Date(props.checkTime).getHours() % 12) + 1);
 </script>
 
 <template>
   <span class="flex justify-center items-center align-middle mr-[15px]">
     <n-icon class="mr-1">
-      <ClockOutline />
+      <Clock :hour="hour" />
     </n-icon>
     <n-text :type="timeType">
       <n-popover trigger="hover">
